@@ -2,8 +2,8 @@ package a1
 	
 import (
 	"bufio"
-    "fmt"
-    "io/ioutil"
+    // "fmt"
+    // "io/ioutil"
     "os"
 )
 
@@ -15,26 +15,20 @@ func check(e error) {
 }
 
 func countStrings(filename string) map[string]int {
-	wordcount := map[string]int{
-		"nil":0,
-	}
-
-	dat, err := ioutil.ReadFile(filename)
-    check(err)
-    fmt.Print(string(dat))
-
+	wordcount := make(map[string]int)
 // adapted from https://www.dotnetperls.com/file-go
 	f, err := os.Open(filename)
     check(err)
     scanner := bufio.NewScanner(f)
     scanner.Split(bufio.ScanWords)
     for scanner.Scan() {
-    	//each line is a word
-        line := scanner.Text()
-        //if it is in map lookup ok, update value
-        //else it is not, update the string
-        fmt.Println(line)
+        eachWord := scanner.Text()
+        // adapted from http://stackoverflow.com/questions/2050391/how-to-check-if-a-map-contains-a-key-in-go
+        if _, ok := wordcount[eachWord]; ok {
+        	wordcount[eachWord]++ 	
+        }else{
+        	wordcount[eachWord] = 1
+        }        
     }
-
 	return wordcount
 }
