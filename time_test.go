@@ -27,3 +27,18 @@ func TestEqualsTime24(t *testing.T) {
 		t.Errorf("time for c and d should NOT be equal, but it is.")
 	}
 }
+
+func TestLessThanTime24(t *testing.T) {
+	a:= Time24{
+		9,30,30,
+	}
+	b:= Time24{
+		10,30,30,
+	}
+	aComesbeforeb := lessThanTime24(a,b)
+	if !aComesbeforeb {
+		t.Errorf("a should be before b, but it is not.")
+	}
+
+	
+}

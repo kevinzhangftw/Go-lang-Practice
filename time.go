@@ -22,3 +22,9 @@ func equalsTime24(a Time24, b Time24) bool {
     return equal
 }
 
+func lessThanTime24(a Time24, b Time24) bool {
+	aComesbeforeb := false
+
+
+	return aComesbeforeb
+}
