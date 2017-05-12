@@ -16,7 +16,9 @@ type Time24 struct {
 
 func equalsTime24(a Time24, b Time24) bool {
     equal := false
-    // if a equal b return true
-
+    if a.hour==b.hour && a.minute==b.minute && a.second==b.second {
+    	equal = true
+    }
     return equal
 }
+
