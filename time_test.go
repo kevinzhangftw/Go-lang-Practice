@@ -113,3 +113,40 @@ func TestString(t *testing.T) {
 		t.Errorf("cString should be 00:00:05, not %s", cString)
 	}
 }
+
+func TestMinTime24(t *testing.T) {
+	a:= Time24{
+		0,30,30,
+	}
+	b:= Time24{
+		19,24,59,
+	}
+	c:= Time24{
+		0,0,5,
+	}
+	e:= Time24{
+		12,59,59,
+	}
+	f:= Time24{
+		12,59,0,
+	}
+	slice1 := []Time24{a,b,c,e,f}
+	emptySlice := []Time24{}
+	emptyResult,errEmpty := minTime24(emptySlice)
+	slice1Result,errNonEmpty := minTime24(slice1)
+	if errEmpty.Error()!="times is empty, please provide a nonempty slice" {
+		t.Errorf("emptySlice error object wrong, check error object")
+		
+	}
+	if errNonEmpty.Error()!="nil" {
+		t.Errorf("Slice1 error object is wrong, check error object")
+	}
+	if emptyResult.hour!=0 || emptyResult.minute!=0 || emptyResult.second!=0 {
+		t.Errorf("emptySlice allocated non empty Time24 object")
+	}
+	if slice1Result.hour!=0 || slice1Result.minute!=0 || slice1Result.second!=5 {
+		t.Errorf("slice1Result is wrong, should be 0,0,5, but it is %d,%d,%d", slice1Result.hour, slice1Result.minute, slice1Result.second)
+	}
+
+
+}

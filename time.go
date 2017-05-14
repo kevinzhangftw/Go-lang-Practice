@@ -6,6 +6,7 @@ import (
     // "io/ioutil"
     // "os"
 	"strconv"
+	"errors"
 )
 
 type Time24 struct {
@@ -79,5 +80,18 @@ func (t Time24) validTime24() bool {
 		isTime24=true
 	}
 	return isTime24
+}
+
+func minTime24(times []Time24) (Time24, error) {
+	if len(times)==0 {
+		emptyTime:= Time24{0,0,0,}
+		err:=errors.New("times is empty, please provide a nonempty slice")
+		return emptyTime,err
+	}else{
+		minTime:=Time24{0,0,0,}
+		//Find mintime
+		err := errors.New("nil")
+		return minTime, err
+	}
 }
 
