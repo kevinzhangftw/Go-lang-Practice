@@ -62,3 +62,14 @@ func TestLessThanTime24(t *testing.T) {
 		t.Errorf("e should NOT be before f, but it is.")
 	}
 }
+
+func TestString(t *testing.T) {
+	a:= Time24{
+		9,30,30,
+	}
+	aString := a.String()
+	if aString != "09:30:30" {
+		t.Errorf("aString should be 09:30:30, not %s", aString)
+	}
+
+}

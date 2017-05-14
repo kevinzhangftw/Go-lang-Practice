@@ -50,3 +50,11 @@ func lessThanTime24(a Time24, b Time24) bool {
 	}
 	return aComesbeforeb
 }
+
+func (t Time24) String() string {
+	timeString := "05:39:08"
+	
+    
+
+    return timeString
+}
