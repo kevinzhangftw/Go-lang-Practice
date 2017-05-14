@@ -1,5 +1,6 @@
 package a1
 
+// adapted from my past C++ homework https://github.com/kevinzhangftw/User-Account-Management-Hash-Table/blob/master/UserAccountManagement/hashtable.cpp
 func countPrimes(n int) int {
 	result := 0
 	for i := 2; i <= n; i++ {

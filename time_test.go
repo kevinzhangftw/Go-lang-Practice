@@ -65,11 +65,24 @@ func TestLessThanTime24(t *testing.T) {
 
 func TestString(t *testing.T) {
 	a:= Time24{
-		9,30,30,
+		0,30,30,
 	}
 	aString := a.String()
-	if aString != "09:30:30" {
-		t.Errorf("aString should be 09:30:30, not %s", aString)
+	if aString != "00:30:30" {
+		t.Errorf("aString should be 00:30:30, not %s", aString)
 	}
-
+	b:= Time24{
+		19,24,59,
+	}
+	bString := b.String()
+	if bString != "19:24:59" {
+		t.Errorf("bString should be 19:24:59, not %s", bString)
+	}
+	c:= Time24{
+		0,0,5,
+	}
+	cString := c.String()
+	if cString != "00:00:05" {
+		t.Errorf("cString should be 00:00:05, not %s", cString)
+	}
 }

@@ -5,6 +5,7 @@ import (
     // "fmt"
     // "io/ioutil"
     // "os"
+	"strconv"
 )
 
 type Time24 struct {
@@ -51,10 +52,24 @@ func lessThanTime24(a Time24, b Time24) bool {
 	return aComesbeforeb
 }
 
+//adapted from http://stackoverflow.com/questions/19223277/golang-convert-uint8-to-string
 func (t Time24) String() string {
-	timeString := "05:39:08"
-	
-    
-
+	timeString:=""
+	if t.hour>9 && t.minute>9 && t.second>9 {
+		timeString=strconv.Itoa(int(t.hour))+":"+strconv.Itoa(int(t.minute))+":"+strconv.Itoa(int(t.second))
+	}else if t.hour<=9 && t.minute>9 && t.second>9 {
+		timeString="0"+strconv.Itoa(int(t.hour))+":"+strconv.Itoa(int(t.minute))+":"+strconv.Itoa(int(t.second))
+	}else if t.hour<=9 && t.minute<=9 && t.second>9 {
+		timeString="0"+strconv.Itoa(int(t.hour))+":0"+strconv.Itoa(int(t.minute))+":"+strconv.Itoa(int(t.second))
+	}else if t.hour<=9 && t.minute<=9 && t.second<=9 {
+		timeString="0"+strconv.Itoa(int(t.hour))+":0"+strconv.Itoa(int(t.minute))+":0"+strconv.Itoa(int(t.second))
+	}else if t.hour>9 && t.minute<=9 && t.second>9 {
+		timeString=strconv.Itoa(int(t.hour))+":0"+strconv.Itoa(int(t.minute))+":"+strconv.Itoa(int(t.second))
+	}else if t.hour>9 && t.minute<=9 && t.second<=9 {
+		timeString=strconv.Itoa(int(t.hour))+":0"+strconv.Itoa(int(t.minute))+":0"+strconv.Itoa(int(t.second))
+	}else if t.hour>9 && t.minute>9 && t.second<=9 {
+		timeString=strconv.Itoa(int(t.hour))+":"+strconv.Itoa(int(t.minute))+":0"+strconv.Itoa(int(t.second))
+	}
     return timeString
 }
+
