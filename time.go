@@ -73,3 +73,11 @@ func (t Time24) String() string {
     return timeString
 }
 
+func (t Time24) validTime24() bool {
+	isTime24:=false
+	if t.hour<24 && t.minute<60 && t.second<60 {
+		isTime24=true
+	}
+	return isTime24
+}
+
