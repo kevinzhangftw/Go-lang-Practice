@@ -88,8 +88,13 @@ func minTime24(times []Time24) (Time24, error) {
 		err:=errors.New("times is empty, please provide a nonempty slice")
 		return emptyTime,err
 	}else{
-		minTime:=Time24{0,0,0,}
-		//Find mintime
+		minTime:=times[0]
+		for i := 1; i < len(times); i++ {
+			if lessThanTime24(times[i],minTime) {
+				minTime = times[i]
+			}
+			
+		}
 		err := errors.New("nil")
 		return minTime, err
 	}
