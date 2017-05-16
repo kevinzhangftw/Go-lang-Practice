@@ -2,13 +2,17 @@ package a1
 	
 import (
 	// "bufio"
-    // "fmt"
+    "fmt"
     // "io/ioutil"
     // "os"
 	// "strconv"
 	// "errors"
 )
 
-func linearSearch() {
+func linearSearch(x interface{}, lst interface{}) int {
+	fmt.Println(x)
+	fmt.Println(lst)
+	index := 0
 	
+	return index
 }
