@@ -2,7 +2,7 @@ package a1
 	
 import (
 	// "bufio"
-    "fmt"
+    // "fmt"
     // "io/ioutil"
     // "os"
 	// "strconv"
@@ -11,34 +11,16 @@ import (
 )
 
 //adapted from http://stackoverflow.com/questions/12753805/type-converting-slices-of-interfaces-in-go
-func linearSearch(x interface{}, lst interface{}) (index int) {
-	// xVal := reflect.ValueOf(x)
-	// fmt.Println(xVal)
-
-	// lstVal := reflect.ValueOf(lst)
-	// if lstVal.Kind() != reflect.Slice {
- //        panic("lst is not a slice")
- //    }
- //    lstInterface := make([]interface{}, lstVal.Len())
- //    for i := 0; i < lstVal.Len(); i++ {
- //    	lstInterface[i] = lstVal.Index(i).Interface    	
- //    }
- //    fmt.Println(lstInterface)
-	uselessInt:= 5
-	uselessString:="i am useless"
-	if reflect.TypeOf(x) == uselessInt.(int) {
-		fmt.Println("x is int")	
-	}else if reflect.TypeOf(x) == uselessString.(string){
-		fmt.Println("x is string")
-	}
-
-
-    //check if x and lst[] is same type
-
-
-
-    
-
-
-	return
+func linearSearch(x interface{}, lst interface{}) int {
+	index := 0	
+    newLst := reflect.ValueOf(lst)
+    for i := 0; i < newLst.Len(); i++ {
+    	if x == newLst.Index(i).Interface() {
+    		index = i
+    		return index
+    	} 	
+    }
+//otherwise here x is not found in lst
+    index = -1
+	return index
 }
