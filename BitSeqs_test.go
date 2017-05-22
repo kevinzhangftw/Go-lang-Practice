@@ -21,4 +21,13 @@ func TestAllBitSeqs(t *testing.T) {
 		t.Errorf("test1 should return [[0] [1]], instead it returns %v", test1)
 	}	
 
+	slice2 := [][]int{}
+	slice2 = append(slice2, []int{00})
+	slice2 = append(slice2, []int{01})
+	slice2 = append(slice2, []int{10})
+	slice2 = append(slice2, []int{11})
+	test2 := allBitSeqs(2)
+	if reflect.DeepEqual(test2, slice2) == true {
+		t.Errorf("test2 should return [[0 0] [0 1] [1 0] [1 1]], instead it returns %v", test2)
+	}
 }
