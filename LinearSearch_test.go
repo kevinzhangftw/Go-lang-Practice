@@ -28,8 +28,8 @@ func TestLinearSearch(t *testing.T) {
 	if test5 != 0 {
 		t.Errorf("test5 should be 2, instead it returns %v", test5)
 	}
-
-
-
-	
+	test6 := linearSearch(5, []string{"cat", "nose", "egg"})	
+	if test6 != -1 {
+		t.Errorf("test6 should panic %v", test6)
+	}	
 }

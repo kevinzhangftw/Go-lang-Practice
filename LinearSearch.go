@@ -1,12 +1,7 @@
 package a1
 	
 import (
-	// "bufio"
-    // "fmt"
-    // "io/ioutil"
-    // "os"
-	// "strconv"
-	// "errors"
+    "fmt"
 	"reflect"
 )
 
@@ -14,6 +9,12 @@ import (
 func linearSearch(x interface{}, lst interface{}) int {
 	index := 0	
     newLst := reflect.ValueOf(lst)
+    //check type
+    if reflect.TypeOf(x) != reflect.TypeOf(newLst.Index(0).Interface()) {
+    	fmt.Println("panic() commented out: x and lst not the same type")
+    	// panic("x and lst not the same type")
+    }
+
     for i := 0; i < newLst.Len(); i++ {
     	if x == newLst.Index(i).Interface() {
     		index = i
