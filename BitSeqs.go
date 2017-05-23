@@ -1,9 +1,9 @@
 package a1
 	
 import (
-    "fmt"
+    // "fmt"
 	// "reflect"
-	"strconv"
+	// "strconv"
 	"math"
 )
 
@@ -24,20 +24,20 @@ func allBitSeqs(n int) [][]int{
 }
 
 func getSequence(i int, length int) []int {
-	seq := []int{0}
-	seqString := strconv.FormatInt(int64(i), 2)
-	
-	if len(seqString) == length {
-		seq[0], _ = strconv.Atoi(seqString)
-		fmt.Println("len(seqString) == length seq[0]: %v", seq[0])
-	}else{
-		lenDiff := length - len(seqString)
-		for i := 0; i < lenDiff; i++ {
-			seqString = string('0') + seqString
-		}
-		fmt.Println("len(seqString) != length seq[0]: %v", seqString)
-		seq[0], _ = strconv.Atoi(seqString)
+	seq := make([]int, length)
+	for x := 0; x < length; x++ {
+		bitIndex := x+1
+		largestBitSize := int(math.Pow(2, float64(length-bitIndex)))
 
+		// fmt.Println("largestBitSize:%v", largestBitSize)
+		// fmt.Println("i:%v", i)
+
+		if largestBitSize <= i {
+			seq[x]=1
+			i = i - largestBitSize
+		}else{
+			seq[x]=0
+		}
 	}
 	return seq
 }
