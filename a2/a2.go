@@ -44,21 +44,32 @@ func readJSON() string {
 func readTokens(data string) []Token{
 	tokenSlice := make([]Token, len(data))
  
-	runedata := []rune(data)
-	for index := range runedata {
-
+	rdat := []rune(data)
+	for index := range rdat {
 		switch {
-    	case runedata[index]== '{', runedata[index]== '}':
+    	case rdat[index]== '{', rdat[index]== '}':
        		tokenSlice[index] = delimCurly
 
-       	case runedata[index]== '[', runedata[index]== ']':
+       	case rdat[index]== '[', rdat[index]== ']':
        		tokenSlice[index] = delimSquare
 
-       	case runedata[index]==':':
+       	case rdat[index]==':':
        		tokenSlice[index] = quote
 
-       	case runedata[index]==',':
+       	case rdat[index]==',':
        		tokenSlice[index] = comma
+
+       	case rdat[index]=='0',rdat[index]=='1',rdat[index]=='2',rdat[index]=='3':
+       		tokenSlice[index] = number
+       	case rdat[index]=='4',rdat[index]=='5',rdat[index]=='6',rdat[index]=='7':
+       		tokenSlice[index] = number
+       	case rdat[index]=='8',rdat[index]=='9',rdat[index]=='+',rdat[index]=='-':
+       		tokenSlice[index] = number
+       	case rdat[index]=='e',rdat[index]=='E',rdat[index]=='.':
+       		tokenSlice[index] = number
+
+       	case rdat[index]=='t',rdat[index]=='r',rdat[index]=='u',rdat[index]=='e':
+       		tokenSlice[index] = boolean
 
     	default:
        		panic("Kz says: invalid JSON")
