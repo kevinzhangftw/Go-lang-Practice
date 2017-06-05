@@ -13,7 +13,6 @@ import (
 type Token interface{}
 
 type TokenType uint8
-
 const (
 	delimCurly TokenType = iota
 	delimSquare 
@@ -23,6 +22,7 @@ const (
 	words
 	escapeString
 	number
+	empty
 )
 
 // adapted from https://stackoverflow.com/questions/35080109/golang-how-to-read-input-filename-in-go
@@ -43,10 +43,15 @@ func readJSON() string {
 
 func readTokens(data string) []Token{
 	tokenSlice := make([]Token, len(data))
- 
+ 	strflag := false
+ 	// escflag := false
+ 	
 	rdat := []rune(data)
-	for index := range rdat {
+	for index := 0; index < len(rdat); index++ {
 		switch {
+		case rdat[index]==' ':
+       		tokenSlice[index] = empty
+
     	case rdat[index]== '{', rdat[index]== '}':
        		tokenSlice[index] = delimCurly
 
@@ -65,16 +70,71 @@ func readTokens(data string) []Token{
        		tokenSlice[index] = number
        	case rdat[index]=='8',rdat[index]=='9',rdat[index]=='+',rdat[index]=='-':
        		tokenSlice[index] = number
-       	case rdat[index]=='e',rdat[index]=='E',rdat[index]=='.':
+       	case rdat[index]=='E',rdat[index]=='.':
        		tokenSlice[index] = number
 
-       	case rdat[index]=='t',rdat[index]=='r',rdat[index]=='u',rdat[index]=='e':
-       		tokenSlice[index] = boolean
+		case rdat[index]=='t',rdat[index]=='r',rdat[index]=='u',rdat[index]=='n':
+			if strflag==false {
+				tokenSlice[index] = boolean
+			}else{
+				tokenSlice[index] = words
+			}
+       		
+		case rdat[index]=='f',rdat[index]=='a',rdat[index]=='l',rdat[index]=='s':
+       		if strflag==false {
+				tokenSlice[index] = boolean
+			}else{
+				tokenSlice[index] = words
+			}
+		
+       	case rdat[index]=='e':
+       		if strflag ==false {
+       			if tokenSlice[index-1]==number {
+       				tokenSlice[index]=number
+       			}else{
+       				tokenSlice[index]=boolean
+       			}	
+       		}else{
+       			tokenSlice[index]= words
+       		}
 
+       	case rdat[index]=='"':
+       		tokenSlice[index]=words
+       		if strflag==false {
+       			strflag= true
+       		}else{
+       			strflag= false
+       		}
+
+       	case rdat[index]=='\\':
+       		// escflag = !escflag
+       		if rdat[index+1]!='u' {
+       			tokenSlice[index]= escapeString
+       			tokenSlice[index+1]=escapeString
+       			index++	
+       		}else{
+       			tokenSlice[index]= escapeString
+       			tokenSlice[index+1]=escapeString
+       			tokenSlice[index+2]= escapeString
+       			tokenSlice[index+3]=escapeString
+       			tokenSlice[index+4]= escapeString
+       			tokenSlice[index+5]=escapeString
+       			index+=5
+       		}
+       		
     	default:
-       		panic("Kz says: invalid JSON")
+    		if strflag == true {
+    			tokenSlice[index]= words
+    		}
     	}
     }
 
+
 	return tokenSlice
+}
+
+func formatHTMl(tokenSlice []Token) string{
+	html := "fake html"
+
+	return html
 }
