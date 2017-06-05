@@ -32,13 +32,14 @@ func TestFormatHTML(t *testing.T) {
 		t.Errorf("Test failed, expected: '%s', got:  '%s'", expectedcHTML, outcHTML)
 	}
 
+//from here it is easier for me to see json then to compare span tags
 	smToken := readTokens(`{"s":[2, 3]}`)
 	outsmHTML := formatHTML(smToken, `{"s":[2, 3]}`)
 	writeFile(outsmHTML)
 
-	medToken := readTokens(`{"key1":-123e5, "key2":true}`)
-	outmedHTML := formatHTML(medToken, `{"key1":-123e5, "key2":true}`)
-	writeFile(outmedHTML)
+	// medToken := readTokens(`{"key1":"hello, \u1234 world"}`)
+	// outmedHTML := formatHTML(medToken, `{"key1":"hello, \u1234 world"}`)
+	// writeFile(outmedHTML)
 }
 
 func TestReadTokens(t *testing.T) {
@@ -113,14 +114,16 @@ func TestReadTokens(t *testing.T) {
 		t.Errorf("Test failed, expected: '%v', got:  '%v'", expectStr, outStr)
 	}
 
-	outEsc := readTokens(`{"\n"}`)
-	expectEsc := make([]Token, 6)
+	outEsc := readTokens(`{"h\nw"}`)
+	expectEsc := make([]Token, 8)
 	expectEsc[0] = delimCurly
 	expectEsc[1] = words
-	expectEsc[2] = escapeString
+	expectEsc[2] = words
 	expectEsc[3] = escapeString
-	expectEsc[4] = words
-	expectEsc[5] = delimCurly
+	expectEsc[4] = escapeString
+	expectEsc[5] = words
+	expectEsc[6] = words
+	expectEsc[7] = delimCurly
 	if !reflect.DeepEqual(outEsc, expectEsc) {
 		t.Errorf("Test failed, expected: '%v', got:  '%v'", expectEsc, outEsc)
 	}

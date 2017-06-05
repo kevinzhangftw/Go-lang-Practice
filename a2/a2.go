@@ -56,6 +56,8 @@ func formatHTML(tokenSlice []Token, data string) string{
 			
 		case tokenSlice[i]==words:
 			body = body + leftSpan("green")+ string(data[i]) + "</span>"
+		case tokenSlice[i]==escapeString:
+			body = body + leftSpan("PEACHPUFF")+ string(data[i]) + "</span>"
 		case tokenSlice[i]==number:
 			body = body + leftSpan("cyan")+ string(data[i]) + "</span>"
 		case tokenSlice[i]==quote:
@@ -63,7 +65,7 @@ func formatHTML(tokenSlice []Token, data string) string{
 		case tokenSlice[i]==delimSquare:
 			body = body + leftSpan("gray")+ string(data[i]) + "</span>"
 		case tokenSlice[i]==comma:
-			body = body + leftSpan("red")+ string(data[i]) + "</span>"
+			body = body + leftSpan("red")+ string(data[i]) + "</span><br/>"
 		case tokenSlice[i]==empty:
 			body = body + "&nbsp"
 		case tokenSlice[i]==boolean:
@@ -96,7 +98,6 @@ func leftSpan(color string) string{
 func readTokens(data string) []Token{
 	tokenSlice := make([]Token, len(data))
  	strflag := false
- 	// escflag := false
  	
 	rdat := []rune(data)
 	for index := 0; index < len(rdat); index++ {
@@ -114,16 +115,36 @@ func readTokens(data string) []Token{
        		tokenSlice[index] = quote
 
        	case rdat[index]==',':
-       		tokenSlice[index] = comma
+       		if strflag==false {
+				tokenSlice[index] = comma
+			}else{
+				tokenSlice[index] = words
+			}
 
        	case rdat[index]=='0',rdat[index]=='1',rdat[index]=='2',rdat[index]=='3':
-       		tokenSlice[index] = number
+       		if strflag==false {
+				tokenSlice[index] = number
+			}else{
+				tokenSlice[index] = words
+			}
        	case rdat[index]=='4',rdat[index]=='5',rdat[index]=='6',rdat[index]=='7':
-       		tokenSlice[index] = number
+       		if strflag==false {
+				tokenSlice[index] = number
+			}else{
+				tokenSlice[index] = words
+			}
        	case rdat[index]=='8',rdat[index]=='9',rdat[index]=='+',rdat[index]=='-':
-       		tokenSlice[index] = number
+       		if strflag==false {
+				tokenSlice[index] = number
+			}else{
+				tokenSlice[index] = words
+			}
        	case rdat[index]=='E',rdat[index]=='.':
-       		tokenSlice[index] = number
+       		if strflag==false {
+				tokenSlice[index] = number
+			}else{
+				tokenSlice[index] = words
+			}
 
 		case rdat[index]=='t',rdat[index]=='r',rdat[index]=='u',rdat[index]=='n':
 			if strflag==false {
@@ -159,7 +180,6 @@ func readTokens(data string) []Token{
        		}
 
        	case rdat[index]=='\\':
-       		// escflag = !escflag
        		if rdat[index+1]!='u' {
        			tokenSlice[index]= escapeString
        			tokenSlice[index+1]=escapeString
