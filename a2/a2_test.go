@@ -16,8 +16,29 @@ func TestReadJSON(t *testing.T) {
     }
 }
 
-func TestFormatHTMl(t *testing.T) {
+func TestFormatHTML(t *testing.T) {
+	emptyToken := readTokens(``)
+	shortHTML := formatHTML(emptyToken, ``)
+	expectedShortHTML := `<!DOCTYPE html><html><head><title>JSON Color</title></head><body></body></html>`
+	if expectedShortHTML != shortHTML {
+		t.Errorf("Test failed, expected: '%s', got:  '%s'", expectedShortHTML, shortHTML)
+	}
 	
+	sToken := readTokens("{}")
+	outcHTML := formatHTML(sToken, "{}")
+	writeFile(outcHTML)
+	expectedcHTML := `<!DOCTYPE html><html><head><title>JSON Color</title></head><body><span style="color:blue">{</span><br/><span style="color:blue"><br/>}</span></body></html>`
+	if expectedcHTML != outcHTML {
+		t.Errorf("Test failed, expected: '%s', got:  '%s'", expectedcHTML, outcHTML)
+	}
+
+	smToken := readTokens(`{"s":[2, 3]}`)
+	outsmHTML := formatHTML(smToken, `{"s":[2, 3]}`)
+	writeFile(outsmHTML)
+
+	medToken := readTokens(`{"key1":-123e5, "key2":true}`)
+	outmedHTML := formatHTML(medToken, `{"key1":-123e5, "key2":true}`)
+	writeFile(outmedHTML)
 }
 
 func TestReadTokens(t *testing.T) {
@@ -31,6 +52,19 @@ func TestReadTokens(t *testing.T) {
 	expectShorty[1] = delimCurly
 	if !reflect.DeepEqual(outShorty, expectShorty) {
 		t.Errorf("Test failed, expected: '%v', got:  '%s'", expectShorty, outShorty)
+	}
+	
+	outnumShorty := readTokens(`{"1":5}`)
+	expectnumShorty := make([]Token, 7)
+	expectnumShorty[0] = delimCurly
+	expectnumShorty[1] = words
+	expectnumShorty[2] = words
+	expectnumShorty[3] = words
+	expectnumShorty[4] = quote
+	expectnumShorty[5] = number
+	expectnumShorty[6] = delimCurly
+	if !reflect.DeepEqual(outnumShorty, expectnumShorty) {
+		t.Errorf("Test failed, expected: '%v', got:  '%v'", expectnumShorty, outnumShorty)
 	}
 	
 	outSimple := readTokens(`{:[-52.01e-355]}`)

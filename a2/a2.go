@@ -41,6 +41,58 @@ func readJSON() string {
     return string(data)
 }
 
+func formatHTML(tokenSlice []Token, data string) string{
+	html := "<!DOCTYPE html><html><head><title>JSON Color</title></head><body>"
+	endTag:= "</body></html>"
+	body := ""
+	for i := 0; i < len(tokenSlice); i++ {
+		switch{
+		case tokenSlice[i]==delimCurly:
+			if string(data[i])=="{" {
+				body = body + leftSpan("blue")+ string(data[i]) + "</span><br/>"
+			}else{
+				body = body + leftSpan("blue")+ "<br/>" +string(data[i]) + "</span>"
+			}
+			
+		case tokenSlice[i]==words:
+			body = body + leftSpan("green")+ string(data[i]) + "</span>"
+		case tokenSlice[i]==number:
+			body = body + leftSpan("cyan")+ string(data[i]) + "</span>"
+		case tokenSlice[i]==quote:
+			body = body + leftSpan("maroon")+ string(data[i]) + "</span>"
+		case tokenSlice[i]==delimSquare:
+			body = body + leftSpan("gray")+ string(data[i]) + "</span>"
+		case tokenSlice[i]==comma:
+			body = body + leftSpan("red")+ string(data[i]) + "</span>"
+		case tokenSlice[i]==empty:
+			body = body + "&nbsp"
+		case tokenSlice[i]==boolean:
+			body = body + leftSpan("ORCHID")+ string(data[i]) + "</span>"
+
+		default:
+			panic("kz says: token not recognized")	
+		}
+	}
+
+
+	return html + body + endTag
+}
+
+// adapted from https://stackoverflow.com/questions/35333302/how-to-write-the-output-of-this-statement-into-a-file-in-golang
+func writeFile(html string) {
+	file, fileErr := os.Create("json.html")
+	if fileErr != nil {
+    	fmt.Println(fileErr)
+    	return
+	}
+	fmt.Fprintf(file, "%v\n", html)
+}
+
+func leftSpan(color string) string{
+	return `<span style="color:` + color + `">`
+}
+
+
 func readTokens(data string) []Token{
 	tokenSlice := make([]Token, len(data))
  	strflag := false
@@ -131,10 +183,4 @@ func readTokens(data string) []Token{
 
 
 	return tokenSlice
-}
-
-func formatHTMl(tokenSlice []Token) string{
-	html := "fake html"
-
-	return html
 }
