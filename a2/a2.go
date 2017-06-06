@@ -79,7 +79,7 @@ func formatHTML(tokenSlice []Token, data string) string{
 		
 		case tokenSlice[i]==comma:
 			if commaflag == false {
-				body = body + leftSpan("red")+ string(data[i]) + "</span><br/>"
+				body = body + leftSpan("red")+ string(data[i]) + "</span><br/>" + "&nbsp"
 			}else{
 				body = body + leftSpan("red")+ string(data[i])+ space() + "</span>"
 			}
