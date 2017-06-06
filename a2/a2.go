@@ -1,4 +1,5 @@
-package a2
+// package a2
+package main
 
 import (
 	// "encoding/json"
@@ -29,6 +30,13 @@ const (
 	quot
 	apos
 )
+
+func main() {
+	data:=readJSON()
+	Token := readTokens(data)
+	outHTML := formatHTML(Token, data)
+	writeFile(outHTML)
+}
 
 // adapted from https://stackoverflow.com/questions/35080109/golang-how-to-read-input-filename-in-go
 func readJSON() string {

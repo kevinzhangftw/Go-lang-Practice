@@ -27,7 +27,7 @@ func TestFormatHTML(t *testing.T) {
 	sToken := readTokens("{}")
 	outcHTML := formatHTML(sToken, "{}")
 	writeFile(outcHTML)
-	expectedcHTML := `<!DOCTYPE html><html><head><title>JSON Color</title></head><body><span style="color:blue">{</span><br/><span style="color:blue"><br/>}</span></body></html>`
+	expectedcHTML := `<!DOCTYPE html><html><head><title>JSON Color</title></head><body><span style="color:blue">{</span><br/>&nbsp<span style="color:blue"><br/>}</span></body></html>`
 	if expectedcHTML != outcHTML {
 		t.Errorf("Test failed, expected: '%s', got:  '%s'", expectedcHTML, outcHTML)
 	}
