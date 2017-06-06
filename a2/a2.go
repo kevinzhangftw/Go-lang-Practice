@@ -16,13 +16,18 @@ type TokenType uint8
 const (
 	delimCurly TokenType = iota
 	delimSquare 
-	quote
+	colon
 	comma
 	boolean
 	words
 	escapeString
 	number
 	empty
+	leftangle
+	rightangle
+	amp
+	quot
+	apos
 )
 
 // adapted from https://stackoverflow.com/questions/35080109/golang-how-to-read-input-filename-in-go
@@ -50,7 +55,7 @@ func formatHTML(tokenSlice []Token, data string) string{
 		switch{
 		case tokenSlice[i]==delimCurly:
 			if string(data[i])=="{" {
-				body = body + leftSpan("blue")+ string(data[i]) + "</span><br/>"
+				body = body + leftSpan("blue")+ string(data[i]) + "</span><br/>"+ "&nbsp"
 			}else{
 				body = body + leftSpan("blue")+ "<br/>" +string(data[i]) + "</span>"
 			}
@@ -61,8 +66,9 @@ func formatHTML(tokenSlice []Token, data string) string{
 			body = body + leftSpan("PEACHPUFF")+ string(data[i]) + "</span>"
 		case tokenSlice[i]==number:
 			body = body + leftSpan("cyan")+ string(data[i]) + "</span>"
-		case tokenSlice[i]==quote:
-			body = body + leftSpan("maroon")+ string(data[i]) + "</span>"
+		case tokenSlice[i]==colon:
+			body = body + leftSpan("maroon")+ space()+string(data[i])+ space() + "</span>"
+		
 		case tokenSlice[i]==delimSquare:
 			if string(data[i])=="[" {
 				commaflag = true
@@ -75,22 +81,35 @@ func formatHTML(tokenSlice []Token, data string) string{
 			if commaflag == false {
 				body = body + leftSpan("red")+ string(data[i]) + "</span><br/>"
 			}else{
-				body = body + leftSpan("red")+ string(data[i]) + "</span>"
+				body = body + leftSpan("red")+ string(data[i])+ space() + "</span>"
 			}
 			
-		
 		case tokenSlice[i]==empty:
 			body = body + "&nbsp"
 		case tokenSlice[i]==boolean:
 			body = body + leftSpan("ORCHID")+ string(data[i]) + "</span>"
 
+		case tokenSlice[i]==leftangle:
+			body = body + leftSpan("green")+ "&lt" + "</span>"
+		case tokenSlice[i]==rightangle:
+			body = body + leftSpan("green")+ "&gt" + "</span>"
+		case tokenSlice[i]==amp:
+			body = body + leftSpan("green")+ "&amp" + "</span>"
+		case tokenSlice[i]==quot:
+			body = body + leftSpan("green")+ "&quot" + "</span>"
+		case tokenSlice[i]==apos:
+			body = body + leftSpan("green")+ "&apos" + "</span>"	
 		default:
-			panic("kz says: token not recognized")	
+			// panic("kz says: token not recognized")	
 		}
 	}
 
 
 	return html + body + endTag
+}
+
+func space() string{
+	return "&nbsp"
 }
 
 // adapted from https://stackoverflow.com/questions/35333302/how-to-write-the-output-of-this-statement-into-a-file-in-golang
@@ -117,7 +136,16 @@ func readTokens(data string) []Token{
 		switch {
 		case rdat[index]==' ':
        		tokenSlice[index] = empty
-
+       	case rdat[index]=='<':
+       		tokenSlice[index] = leftangle
+       	case rdat[index]=='>':
+       		tokenSlice[index] = rightangle
+       	case rdat[index]=='&':
+       		tokenSlice[index] = amp
+       	// case rdat[index]=='"':
+       	// 	tokenSlice[index] = quot
+       	// case rdat[index]=='\'':
+       	// 	tokenSlice[index] = apos
     	case rdat[index]== '{', rdat[index]== '}':
        		if strflag==false {
 				tokenSlice[index] = delimCurly
@@ -134,7 +162,7 @@ func readTokens(data string) []Token{
 
        	case rdat[index]==':':
        		if strflag==false {
-				tokenSlice[index] = quote
+				tokenSlice[index] = colon
 			}else{
 				tokenSlice[index] = words
 			}
