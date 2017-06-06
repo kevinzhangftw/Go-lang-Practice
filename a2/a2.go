@@ -42,6 +42,7 @@ func readJSON() string {
 }
 
 func formatHTML(tokenSlice []Token, data string) string{
+	commaflag := false
 	html := "<!DOCTYPE html><html><head><title>JSON Color</title></head><body>"
 	endTag:= "</body></html>"
 	body := ""
@@ -63,9 +64,21 @@ func formatHTML(tokenSlice []Token, data string) string{
 		case tokenSlice[i]==quote:
 			body = body + leftSpan("maroon")+ string(data[i]) + "</span>"
 		case tokenSlice[i]==delimSquare:
+			if string(data[i])=="[" {
+				commaflag = true
+			}else{
+				commaflag = false
+			}
 			body = body + leftSpan("gray")+ string(data[i]) + "</span>"
+		
 		case tokenSlice[i]==comma:
-			body = body + leftSpan("red")+ string(data[i]) + "</span><br/>"
+			if commaflag == false {
+				body = body + leftSpan("red")+ string(data[i]) + "</span><br/>"
+			}else{
+				body = body + leftSpan("red")+ string(data[i]) + "</span>"
+			}
+			
+		
 		case tokenSlice[i]==empty:
 			body = body + "&nbsp"
 		case tokenSlice[i]==boolean:
@@ -106,13 +119,25 @@ func readTokens(data string) []Token{
        		tokenSlice[index] = empty
 
     	case rdat[index]== '{', rdat[index]== '}':
-       		tokenSlice[index] = delimCurly
+       		if strflag==false {
+				tokenSlice[index] = delimCurly
+			}else{
+				tokenSlice[index] = words
+			}
 
        	case rdat[index]== '[', rdat[index]== ']':
-       		tokenSlice[index] = delimSquare
+       		if strflag==false {
+				tokenSlice[index] = delimSquare
+			}else{
+				tokenSlice[index] = words
+			}
 
        	case rdat[index]==':':
-       		tokenSlice[index] = quote
+       		if strflag==false {
+				tokenSlice[index] = quote
+			}else{
+				tokenSlice[index] = words
+			}
 
        	case rdat[index]==',':
        		if strflag==false {

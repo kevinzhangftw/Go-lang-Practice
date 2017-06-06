@@ -33,12 +33,12 @@ func TestFormatHTML(t *testing.T) {
 	}
 
 //from here it is easier for me to see json then to compare span tags
-	smToken := readTokens(`{"s":[2, 3]}`)
-	outsmHTML := formatHTML(smToken, `{"s":[2, 3]}`)
+	smToken := readTokens(`{"s":[2, 3], "a < b && a >= c":true}`)
+	outsmHTML := formatHTML(smToken, `{"s":[2, 3], "a < b && a >= c":true}`)
 	writeFile(outsmHTML)
 
-	// medToken := readTokens(`{"key1":"hello, \u1234 world"}`)
-	// outmedHTML := formatHTML(medToken, `{"key1":"hello, \u1234 world"}`)
+	// medToken := readTokens(`{"s":[2, 3], "a":true, "kevin":"who is your daddy \n"}`)
+	// outmedHTML := formatHTML(medToken, `{"s":[2, 3], "a":true, "kevin":"who is your daddy \n"}`)
 	// writeFile(outmedHTML)
 }
 
