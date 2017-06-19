@@ -46,8 +46,7 @@
 		(cond ((= x 0) (list) )
         	  ((< x 0) (list) )
         	  ((> x 0) (cons (- x 1) (rangerevrsd (- x 1)) ) )
-  		)
-		
+  		)		
 	)
 )
 
@@ -160,20 +159,66 @@
 (define all-bit-seqs
 	(lambda (n)
 		(cond
-            ((= n 0)
-                (list)
-            )
-            ((= n 1)
-                (append (list (cons 0 (all-bit-seqs (- n 1))))
-                                (list (cons 1 (all-bit-seqs (- n 1)))))
-            )
-            ((= n 2)
-                (append (list (cons 0 (all-bit-seqs (- n 1))))
-                                (list (cons 1 (all-bit-seqs (- n 1)))))
-            )
-            (else
-                (list '(0 1 2 3 4 5))
-            )
-        )
+			((= n 0)
+				(list)
+			)
+			(else
+				(map get-bit (range (expt 2 n)) (getlistofn n))
+			)
+		)
+	)
+)
+
+(define get-bit
+	(lambda (x n)
+		(cond
+			((= (length (getbitanysize x)) n)
+				(getbitanysize x)
+			)
+			((< (length (getbitanysize x)) n)
+				(padzeros (- n (length (getbitanysize x))) (getbitanysize x))
+			)
+		)
+	)
+)
+
+(define padzeros
+	(lambda (x lst)
+		(cond
+			((= x 0)
+				lst
+			)
+			(else
+				(cons 0 (padzeros (- x 1) lst))
+			)
+		)
+	)
+)
+
+(define getbitanysize
+	(lambda (x)
+		(reverse (getbitanysizervsd x))
+	)
+)
+
+(define getbitanysizervsd
+	(lambda (x)
+		(cond
+			((= x 0)
+				(list)
+			)
+			((= (remainder x 2) 1)
+				(cons 1 (getbitanysizervsd (quotient x 2)))
+			)
+			((= (remainder x 2) 0)
+				(cons 0 (getbitanysizervsd (quotient x 2)))
+			)			
+		)
+	)
+)
+
+(define getlistofn
+	(lambda (n)
+		(map (lambda (x) n) (range (expt 2 n)))
 	)
 )

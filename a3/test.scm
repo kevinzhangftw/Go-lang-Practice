@@ -1,4 +1,3 @@
-
 (load "a3.scm")
 
 (my-last '(cat))
@@ -13,6 +12,9 @@
 (snoc '(1 2 3) '(1 2 3))
 
 (range 0)
+(range 1)
+(range 2)
+(range 3)
 (range -4)
 (range 4)
 (range 9)
@@ -51,8 +53,19 @@
 (is-bit-seq? '(cow 1 1 1 1 0 0 1 1 0 1 0))
 (is-bit-seq? '(1 1 1 1 1 0 1 1 0 1 (dog cat)))
 
+;(get-bit 4 3)
+;(get-bit 3 3)
+;(get-bit 2 3)
+;(get-bit 1 3)
+;(get-bit 0 3)
+
+;(padzeros 3 '(1 0))
+
 (all-bit-seqs 0)
 (all-bit-seqs 1)
 (all-bit-seqs 2)
+(all-bit-seqs 3)
+(all-bit-seqs 4)
+
 
 
