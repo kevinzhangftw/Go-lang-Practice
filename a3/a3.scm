@@ -139,3 +139,41 @@
         )
 	)
 )
+
+;returns true if lst is the empty list, or if it contains only bits
+(define is-bit-seq?
+	(lambda (lst)
+		(cond
+            ((equal? lst '())
+                true
+            )
+            ((is-bit? (car lst))
+        		(is-bit-seq? (cdr lst))
+            )
+            (else
+                false)
+        )
+	)
+)
+
+;returns a list of all the bit sequences of length n.
+(define all-bit-seqs
+	(lambda (n)
+		(cond
+            ((= n 0)
+                (list)
+            )
+            ((= n 1)
+                (append (list (cons 0 (all-bit-seqs (- n 1))))
+                                (list (cons 1 (all-bit-seqs (- n 1)))))
+            )
+            ((= n 2)
+                (append (list (cons 0 (all-bit-seqs (- n 1))))
+                                (list (cons 1 (all-bit-seqs (- n 1)))))
+            )
+            (else
+                (list '(0 1 2 3 4 5))
+            )
+        )
+	)
+)

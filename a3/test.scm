@@ -31,9 +31,28 @@
 (count-primes 10)
 (count-primes 100)
 (count-primes 1000)
-(count-primes 10000)
+;(count-primes 10000)
 
+(is-bit? 0)
+(is-bit? 1)
+(is-bit? 2)
+(is-bit? '(0 1))
+(is-bit? 'cow)
 
+(is-bit-seq? '())
+(is-bit-seq? '(0))
+(is-bit-seq? '(1))
+(is-bit-seq? '(2))
+(is-bit-seq? '(0 1))
+(is-bit-seq? '(0 2))
+(is-bit-seq? '(0 1 1 1 1 1 0 1 1 0 1 0))
+(is-bit-seq? '(0 1 1 1 1 0 0 1 1 0 1 5))
+(is-bit-seq? '((0 1) 1 1 1 1 0 0 1 1 0 1 0))
+(is-bit-seq? '(cow 1 1 1 1 0 0 1 1 0 1 0))
+(is-bit-seq? '(1 1 1 1 1 0 1 1 0 1 (dog cat)))
 
+(all-bit-seqs 0)
+(all-bit-seqs 1)
+(all-bit-seqs 2)
 
 
